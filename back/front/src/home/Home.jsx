@@ -25,7 +25,7 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  const API = 'http://localhost:4000';
+  const API = 'https://nutrilens-backend-0wkr.onrender.com';
 
   // --------------------------------------------------
   // PRODUCT SUGGESTIONS

@@ -11,7 +11,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 
-const API = 'http://localhost:4000';
+const API = 'https://nutrilens-backend-0wkr.onrender.com';
 
 const CHART_COLORS = {
   Carbs: '#3b82f6',

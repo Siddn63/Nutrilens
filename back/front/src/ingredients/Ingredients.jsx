@@ -13,7 +13,7 @@ const Ingredient = () => {
 
   const { name } = useParams();
 
-  const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  const API = import.meta.env.VITE_API_URL || 'https://nutrilens-backend-0wkr.onrender.com';
 
   // Ingredients shown when the page is opened
   const popularIngredients = [
