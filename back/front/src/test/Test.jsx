@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const API = "http://localhost:4000";
+const API = "https://nutrilens-backend-0wkr.onrender.com";
 
 const Test = () => {
   const { id } = useParams();
