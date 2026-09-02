@@ -39,14 +39,27 @@ function Profile() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const res = await axios.get(`https://packbits.onrender.com/user/${userId}`);
-        const { fullname, email, allergies, preconditions, age, vegNonVeg } = res.data.user;
+        const res = await axios.get(
+          `https://packbits.onrender.com/user/${userId}`
+        );
+
+        const {
+          fullname,
+          email,
+          allergies,
+          preconditions,
+          age,
+          vegNonVeg
+        } = res.data.user;
+
         setFullname(fullname);
         setEmail(email);
         setAge(age);
         setVegNonVeg(vegNonVeg);
+
         setAllergies(allergies || []);
         setPreconditions(preconditions || []);
+
         setSelectedAllergies(allergies || []);
         setSelectedPreconditions(preconditions || []);
       } catch (error) {
@@ -62,7 +75,10 @@ function Profile() {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const res = await axios.get('https://packbits.onrender.com/options');
+        const res = await axios.get(
+          'https://packbits.onrender.com/options'
+        );
+
         setAllergyOptions(res.data.allergy || []);
         setPreconditionOptions(res.data.precondition || []);
       } catch (error) {
@@ -79,21 +95,29 @@ function Profile() {
 
     if (type === "allergy") {
       setSelectedAllergies(prev =>
-        checked ? [...prev, value] : prev.filter(item => item !== value)
+        checked
+          ? [...prev, value]
+          : prev.filter(item => item !== value)
       );
     } else {
       setSelectedPreconditions(prev =>
-        checked ? [...prev, value] : prev.filter(item => item !== value)
+        checked
+          ? [...prev, value]
+          : prev.filter(item => item !== value)
       );
     }
   };
 
   const saveField = async (updates, closeEditors) => {
     try {
-      await axios.put("https://packbits.onrender.com/user/update", {
-        userId,
-        ...updates,
-      });
+      await axios.put(
+        "https://packbits.onrender.com/user/update",
+        {
+          userId,
+          ...updates,
+        }
+      );
+
       closeEditors();
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -103,14 +127,23 @@ function Profile() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center mt-20 space-y-3">
-        <div className="avatar">
-          <div className="w-24 rounded-full">
-            <img src={photo} alt="profile" />
-          </div>
+
+      {/* PROFILE HEADER */}
+      <div className="flex flex-col items-center mt-20 space-y-5">
+
+        {/* NUTRILENS LOGO */}
+        <div className="flex justify-center items-center">
+          <img
+            src={photo}
+            alt="Nutrilens Logo"
+            className="w-49 h-48 object-contain"
+          />
         </div>
+
+        {/* USER INFORMATION */}
         <div className="text-lg font-semibold flex flex-wrap justify-center items-center gap-2">
-          {/* Fullname */}
+
+          {/* FULLNAME */}
           <span className="flex items-center gap-1">
             {editName ? (
               <>
@@ -119,12 +152,16 @@ function Profile() {
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                 />
+
                 <button
                   onClick={() =>
-                    saveField({ fullname: newName }, () => {
-                      setFullname(newName);
-                      setEditName(false);
-                    })
+                    saveField(
+                      { fullname: newName },
+                      () => {
+                        setFullname(newName);
+                        setEditName(false);
+                      }
+                    )
                   }
                   className="text-green-600 text-xs font-semibold ml-1"
                 >
@@ -134,6 +171,7 @@ function Profile() {
             ) : (
               <>
                 {fullname}
+
                 <FiEdit2
                   size={12}
                   className="text-blue-500 cursor-pointer"
@@ -148,14 +186,17 @@ function Profile() {
 
           <span className="text-gray-400">|</span>
 
-          {/* Email (not editable) */}
-          <span>{email}</span>
+          {/* EMAIL */}
+          <span>
+            {email}
+          </span>
 
           <span className="text-gray-400">|</span>
 
-          {/* Age */}
+          {/* AGE */}
           <span className="flex items-center gap-1">
             Age:
+
             {editAge ? (
               <>
                 <input
@@ -164,12 +205,16 @@ function Profile() {
                   value={newAge}
                   onChange={(e) => setNewAge(e.target.value)}
                 />
+
                 <button
                   onClick={() =>
-                    saveField({ age: newAge }, () => {
-                      setAge(newAge);
-                      setEditAge(false);
-                    })
+                    saveField(
+                      { age: newAge },
+                      () => {
+                        setAge(newAge);
+                        setEditAge(false);
+                      }
+                    )
                   }
                   className="text-green-600 text-xs font-semibold ml-1"
                 >
@@ -178,7 +223,10 @@ function Profile() {
               </>
             ) : (
               <>
-                <span>{age}</span>
+                <span>
+                  {age}
+                </span>
+
                 <FiEdit2
                   size={12}
                   className="text-blue-500 cursor-pointer ml-1"
@@ -193,8 +241,9 @@ function Profile() {
 
           <span className="text-gray-400">|</span>
 
-          {/* Veg/Non-Veg */}
+          {/* VEG / NON-VEG */}
           <span className="flex items-center gap-1">
+
             {editDiet ? (
               <>
                 <select
@@ -202,16 +251,28 @@ function Profile() {
                   value={newDiet}
                   onChange={(e) => setNewDiet(e.target.value)}
                 >
-                  <option value="">Select</option>
-                  <option value="veg">Veg</option>
-                  <option value="non-veg">Non-Veg</option>
+                  <option value="">
+                    Select
+                  </option>
+
+                  <option value="veg">
+                    Veg
+                  </option>
+
+                  <option value="non-veg">
+                    Non-Veg
+                  </option>
                 </select>
+
                 <button
                   onClick={() =>
-                    saveField({ vegNonVeg: newDiet }, () => {
-                      setVegNonVeg(newDiet);
-                      setEditDiet(false);
-                    })
+                    saveField(
+                      { vegNonVeg: newDiet },
+                      () => {
+                        setVegNonVeg(newDiet);
+                        setEditDiet(false);
+                      }
+                    )
                   }
                   className="text-green-600 text-xs font-semibold ml-1"
                 >
@@ -221,10 +282,15 @@ function Profile() {
             ) : (
               <>
                 {vegNonVeg === "veg" ? (
-                  <span className="text-green-600">🥦 Veg</span>
+                  <span className="text-green-600">
+                    🥦 Veg
+                  </span>
                 ) : (
-                  <span className="text-red-600">🍗 Non-Veg</span>
+                  <span className="text-red-600">
+                    🍗 Non-Veg
+                  </span>
                 )}
+
                 <FiEdit2
                   size={12}
                   className="text-blue-500 cursor-pointer"
@@ -235,17 +301,26 @@ function Profile() {
                 />
               </>
             )}
+
           </span>
         </div>
 
+        {/* USER ID */}
         <div className="flex items-center space-x-3 font-medium">
-          <span>ID: {userId}</span>
+          <span>
+            ID: {userId}
+          </span>
         </div>
       </div>
 
-      {/* Allergies Section */}
+
+      {/* ALLERGIES */}
       <div className="max-w-xl mx-auto mt-8">
-        <h2 className="text-lg font-bold mb-2">Allergies</h2>
+
+        <h2 className="text-lg font-bold mb-2">
+          Allergies
+        </h2>
+
         {editAllergies ? (
           <>
             <input
@@ -253,29 +328,58 @@ function Profile() {
               placeholder="Search allergies"
               className="border px-2 py-1 mb-2 w-full rounded"
               value={allergySearch}
-              onChange={(e) => setAllergySearch(e.target.value)}
+              onChange={(e) =>
+                setAllergySearch(e.target.value)
+              }
             />
+
             <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
+
               {allergyOptions
-                .filter(opt => opt.toLowerCase().includes(allergySearch.toLowerCase()))
+                .filter(opt =>
+                  opt
+                    .toLowerCase()
+                    .includes(
+                      allergySearch.toLowerCase()
+                    )
+                )
                 .map((opt, idx) => (
-                  <label key={idx} className="flex items-center gap-2">
+                  <label
+                    key={idx}
+                    className="flex items-center gap-2"
+                  >
                     <input
                       type="checkbox"
                       value={opt}
                       checked={selectedAllergies.includes(opt)}
-                      onChange={(e) => handleCheckboxChange(e, "allergy")}
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          e,
+                          "allergy"
+                        )
+                      }
                     />
+
                     {opt}
                   </label>
                 ))}
+
             </div>
+
             <button
               onClick={() =>
-                saveField({ allergies: selectedAllergies }, () => {
-                  setAllergies(selectedAllergies);
-                  setEditAllergies(false);
-                })
+                saveField(
+                  {
+                    allergies: selectedAllergies
+                  },
+                  () => {
+                    setAllergies(
+                      selectedAllergies
+                    );
+
+                    setEditAllergies(false);
+                  }
+                )
               }
               className="mt-2 px-4 py-1 bg-green-500 text-white rounded"
             >
@@ -284,21 +388,37 @@ function Profile() {
           </>
         ) : (
           <div className="flex items-center gap-2 flex-wrap">
+
             {allergies.map((a, idx) => (
-              <span key={idx} className="bg-gray-800 px-2 py-1 rounded">{a}</span>
+              <span
+                key={idx}
+                className="bg-gray-800 px-2 py-1 rounded"
+              >
+                {a}
+              </span>
             ))}
+
             <FiEdit2
               size={15}
               className="text-blue-500 cursor-pointer"
-              onClick={() => setEditAllergies(true)}
+              onClick={() =>
+                setEditAllergies(true)
+              }
             />
+
           </div>
         )}
+
       </div>
 
-      {/* Preconditions Section */}
+
+      {/* PRECONDITIONS */}
       <div className="max-w-xl mx-auto mt-6 mb-10">
-        <h2 className="text-lg font-bold mb-2">Preconditions</h2>
+
+        <h2 className="text-lg font-bold mb-2">
+          Preconditions
+        </h2>
+
         {editPreconditions ? (
           <>
             <input
@@ -306,29 +426,61 @@ function Profile() {
               placeholder="Search preconditions"
               className="border px-2 py-1 mb-2 w-full rounded"
               value={preconditionSearch}
-              onChange={(e) => setPreconditionSearch(e.target.value)}
+              onChange={(e) =>
+                setPreconditionSearch(
+                  e.target.value
+                )
+              }
             />
+
             <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
+
               {preconditionOptions
-                .filter(opt => opt.toLowerCase().includes(preconditionSearch.toLowerCase()))
+                .filter(opt =>
+                  opt
+                    .toLowerCase()
+                    .includes(
+                      preconditionSearch.toLowerCase()
+                    )
+                )
                 .map((opt, idx) => (
-                  <label key={idx} className="flex items-center gap-2">
+                  <label
+                    key={idx}
+                    className="flex items-center gap-2"
+                  >
                     <input
                       type="checkbox"
                       value={opt}
                       checked={selectedPreconditions.includes(opt)}
-                      onChange={(e) => handleCheckboxChange(e, "precondition")}
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          e,
+                          "precondition"
+                        )
+                      }
                     />
+
                     {opt}
                   </label>
                 ))}
+
             </div>
+
             <button
               onClick={() =>
-                saveField({ preconditions: selectedPreconditions }, () => {
-                  setPreconditions(selectedPreconditions);
-                  setEditPreconditions(false);
-                })
+                saveField(
+                  {
+                    preconditions:
+                      selectedPreconditions
+                  },
+                  () => {
+                    setPreconditions(
+                      selectedPreconditions
+                    );
+
+                    setEditPreconditions(false);
+                  }
+                )
               }
               className="mt-2 px-4 py-1 bg-green-500 text-white rounded"
             >
@@ -337,16 +489,27 @@ function Profile() {
           </>
         ) : (
           <div className="flex items-center gap-2 flex-wrap">
+
             {preconditions.map((p, idx) => (
-              <span key={idx} className="bg-gray-800 px-2 py-1 rounded">{p}</span>
+              <span
+                key={idx}
+                className="bg-gray-800 px-2 py-1 rounded"
+              >
+                {p}
+              </span>
             ))}
+
             <FiEdit2
               size={15}
               className="text-blue-500 cursor-pointer"
-              onClick={() => setEditPreconditions(true)}
+              onClick={() =>
+                setEditPreconditions(true)
+              }
             />
+
           </div>
         )}
+
       </div>
     </>
   );
